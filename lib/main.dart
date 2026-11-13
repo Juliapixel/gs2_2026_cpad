@@ -1,3 +1,4 @@
+import 'package:cpad/components/myappbar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,8 +29,31 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-        fontFamily: "Inter"
+        colorScheme:
+            .fromSwatch(
+              primarySwatch: MaterialColor(
+                Color.fromARGB(255, 25, 81, 164).toARGB32(),
+                {
+                  50: Color.fromARGB(255, 193, 215, 252),
+                  100: Color.fromARGB(255, 174, 204, 251),
+                  200: Color.fromARGB(255, 131, 176, 249),
+                  300: Color.fromARGB(255, 92, 149, 240),
+                  400: Color.fromARGB(255, 57, 117, 214),
+                  500: Color.fromARGB(255, 25, 81, 164),
+                  600: Color.fromARGB(255, 19, 81, 180),
+                  700: Color.fromARGB(255, 21, 74, 154),
+                  800: Color.fromARGB(255, 13, 56, 121),
+                  900: Color.fromARGB(255, 7, 43, 98),
+                },
+              ),
+              errorColor: Color(0xFFB42332),
+              backgroundColor: Color(0xFFF3F6FA),
+            ).copyWith(
+              primaryContainer: Color.fromARGB(255, 7, 43, 98),
+              errorContainer: Color(0xFFFDEDEF),
+              onPrimaryContainer: Colors.white,
+            ),
+        fontFamily: "Inter",
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -77,42 +101,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
+      appBar: MyAppBar(),
+      body: SizedBox(height: 1000),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
