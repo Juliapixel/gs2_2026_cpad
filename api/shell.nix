@@ -24,7 +24,7 @@
 
   postVenvCreation = ''
     unset SOURCE_DATE_EPOCH
-    pip install -r ${finalAttrs.venvDir}/../requirements.txt
+    pip install -r ${./requirements.txt}
   '';
 
   postShellHook = ''
