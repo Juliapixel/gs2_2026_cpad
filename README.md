@@ -84,14 +84,14 @@ Estrutura: `lib/models`, `lib/services` (API + cache), `lib/providers`, `lib/com
 # API (Python 3.14+)
 cd api
 pip install -r requirements.txt
-FLUXOMED_FROZEN=1 uvicorn api:app --host 0.0.0.0 --port 8080
+uvicorn api:app --host 0.0.0.0 --port 8080
 
 # App (Flutter 3.47+)
 flutter pub get
 flutter run
 ```
 
-Sem variáveis de ambiente nem chaves. O endereço da API (padrão `localhost:8080`) muda na aba **Perfil**; em um celular, use o IP da máquina. `FLUXOMED_FROZEN=1` mantém o alerta de demonstração sempre ativo.
+O endereço da API (padrão `localhost:8080` em builds Debug e `cpad.juliapixel.com` em builds Release) muda na aba **Perfil**; em um celular, use o IP da máquina onde está a API durante desenvolvimento.
 
 ## Vídeo
 
