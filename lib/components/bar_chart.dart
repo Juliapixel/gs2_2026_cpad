@@ -27,7 +27,9 @@ class FluxoBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final axisStyle = theme.textTheme.labelSmall?.copyWith(color: theme.hintColor);
+    final axisStyle = theme.textTheme.labelSmall?.copyWith(
+      color: theme.hintColor,
+    );
     return FluxoContainer(
       child: Semantics(
         label: description,
@@ -49,7 +51,10 @@ class FluxoBarChart extends StatelessWidget {
                 ),
               ),
               borderData: FlBorderData(show: false),
-              gridData: FlGridData(drawVerticalLine: false, horizontalInterval: maxY / 4),
+              gridData: FlGridData(
+                drawVerticalLine: false,
+                horizontalInterval: maxY / 4,
+              ),
               titlesData: FlTitlesData(
                 topTitles: const AxisTitles(),
                 rightTitles: const AxisTitles(),
@@ -58,7 +63,8 @@ class FluxoBarChart extends StatelessWidget {
                     showTitles: true,
                     reservedSize: 32,
                     interval: maxY / 4,
-                    getTitlesWidget: (value, _) => Text("${value.toInt()}", style: axisStyle),
+                    getTitlesWidget: (value, _) =>
+                        Text("${value.toInt()}", style: axisStyle),
                   ),
                 ),
                 bottomTitles: AxisTitles(
@@ -75,7 +81,12 @@ class FluxoBarChart extends StatelessWidget {
               extraLinesData: ExtraLinesData(
                 horizontalLines: [
                   if (threshold != null)
-                    HorizontalLine(y: threshold!, color: theme.colorScheme.error, strokeWidth: 1.5, dashArray: [6, 4]),
+                    HorizontalLine(
+                      y: threshold!,
+                      color: theme.colorScheme.error,
+                      strokeWidth: 1.5,
+                      dashArray: [6, 4],
+                    ),
                 ],
               ),
               barGroups: [
@@ -83,7 +94,12 @@ class FluxoBarChart extends StatelessWidget {
                   BarChartGroupData(
                     x: i,
                     barRods: [
-                      BarChartRodData(toY: bar.value, color: bar.color, width: 14, borderRadius: .circular(4)),
+                      BarChartRodData(
+                        toY: bar.value,
+                        color: bar.color,
+                        width: 14,
+                        borderRadius: .circular(4),
+                      ),
                     ],
                   ),
               ],

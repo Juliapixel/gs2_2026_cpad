@@ -19,7 +19,10 @@ class OccupancyScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text("Ocupação da rede"), foregroundColor: Colors.white),
+      appBar: AppBar(
+        title: const Text("Ocupação da rede"),
+        foregroundColor: Colors.white,
+      ),
       body: AsyncView(
         value: ref.watch(occupancyProvider),
         onRetry: () => ref.refresh(occupancyProvider.future),
@@ -32,16 +35,24 @@ class OccupancyScreen extends ConsumerWidget {
                   "Ocupação agora",
                   "${indicator.occupancyPct}%",
                   indicator.change == 0
-                      ? StatusText("estável ${Texts.translate(Texts.window, indicator.window)}")
+                      ? StatusText(
+                          "estável ${Texts.translate(Texts.window, indicator.window)}",
+                        )
                       : StatusText(
                           "${indicator.change > 0 ? "↑" : "↓"} ${indicator.change.abs()} pp ${Texts.translate(Texts.window, indicator.window)}",
                           tone: indicator.change > 0 ? .bad : .good,
                         ),
                 ),
-                StatusCard("Vagas ocupadas", "${indicator.occupiedBeds}/${indicator.totalBeds}", null),
+                StatusCard(
+                  "Vagas ocupadas",
+                  "${indicator.occupiedBeds}/${indicator.totalBeds}",
+                  null,
+                ),
               ],
             ),
-            SectionTitle("${indicator.highlightedUnit} · ${indicator.highlightedUnitPct}%"),
+            SectionTitle(
+              "${indicator.highlightedUnit} · ${indicator.highlightedUnitPct}%",
+            ),
             FluxoContainer(
               child: Column(
                 crossAxisAlignment: .start,
@@ -53,8 +64,14 @@ class OccupancyScreen extends ConsumerWidget {
                     runSpacing: 4,
                     children: [
                       _Legend("Observado", theme.primaryColor),
-                      _Legend("Projetado", theme.extension<FluxoColors>()!.warning),
-                      _Legend("Limiar ${indicator.thresholdPct}%", theme.colorScheme.error),
+                      _Legend(
+                        "Projetado",
+                        theme.extension<FluxoColors>()!.warning,
+                      ),
+                      _Legend(
+                        "Limiar ${indicator.thresholdPct}%",
+                        theme.colorScheme.error,
+                      ),
                     ],
                   ),
                 ],
@@ -90,7 +107,11 @@ class _Legend extends StatelessWidget {
       mainAxisSize: .min,
       spacing: 6,
       children: [
-        Container(width: 12, height: 12, decoration: BoxDecoration(color: color, shape: .circle)),
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(color: color, shape: .circle),
+        ),
         Text(text, style: Theme.of(context).textTheme.labelMedium),
       ],
     );
@@ -105,7 +126,9 @@ class _OccupancyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final axisStyle = theme.textTheme.labelSmall?.copyWith(color: theme.hintColor);
+    final axisStyle = theme.textTheme.labelSmall?.copyWith(
+      color: theme.hintColor,
+    );
     final points = indicator.points;
     final observed = <FlSpot>[];
     final projected = <FlSpot>[];
@@ -113,14 +136,16 @@ class _OccupancyChart extends StatelessWidget {
       final spot = FlSpot(i.toDouble(), point.occupancyPct.toDouble());
       if (point.projected) {
         // Connects the projection to the last observed point.
-        if (projected.isEmpty && observed.isNotEmpty) projected.add(observed.last);
+        if (projected.isEmpty && observed.isNotEmpty)
+          projected.add(observed.last);
         projected.add(spot);
       } else {
         observed.add(spot);
       }
     }
     return Semantics(
-      label: "Gráfico de ocupação por hora. Observado: ${points.where((p) => !p.projected).map((p) => '${p.hour}h ${p.occupancyPct}%').join(', ')}. "
+      label:
+          "Gráfico de ocupação por hora. Observado: ${points.where((p) => !p.projected).map((p) => '${p.hour}h ${p.occupancyPct}%').join(', ')}. "
           "Projetado: ${points.where((p) => p.projected).map((p) => '${p.hour}h ${p.occupancyPct}%').join(', ')}.",
       child: LineChart(
         LineChartData(
@@ -143,7 +168,10 @@ class _OccupancyChart extends StatelessWidget {
           minX: 0,
           maxX: (points.length - 1).toDouble(),
           borderData: FlBorderData(show: false),
-          gridData: const FlGridData(drawVerticalLine: false, horizontalInterval: 25),
+          gridData: const FlGridData(
+            drawVerticalLine: false,
+            horizontalInterval: 25,
+          ),
           titlesData: FlTitlesData(
             topTitles: const AxisTitles(),
             rightTitles: const AxisTitles(),
@@ -152,7 +180,8 @@ class _OccupancyChart extends StatelessWidget {
                 showTitles: true,
                 reservedSize: 36,
                 interval: 25,
-                getTitlesWidget: (value, _) => Text("${value.toInt()}%", style: axisStyle),
+                getTitlesWidget: (value, _) =>
+                    Text("${value.toInt()}%", style: axisStyle),
               ),
             ),
             bottomTitles: AxisTitles(
@@ -162,14 +191,22 @@ class _OccupancyChart extends StatelessWidget {
                 interval: 1,
                 getTitlesWidget: (value, _) => Padding(
                   padding: const .only(top: 4),
-                  child: Text("${points[value.toInt()].hour}h", style: axisStyle),
+                  child: Text(
+                    "${points[value.toInt()].hour}h",
+                    style: axisStyle,
+                  ),
                 ),
               ),
             ),
           ),
           extraLinesData: ExtraLinesData(
             horizontalLines: [
-              HorizontalLine(y: indicator.thresholdPct.toDouble(), color: theme.colorScheme.error, strokeWidth: 1.5, dashArray: [6, 4]),
+              HorizontalLine(
+                y: indicator.thresholdPct.toDouble(),
+                color: theme.colorScheme.error,
+                strokeWidth: 1.5,
+                dashArray: [6, 4],
+              ),
             ],
           ),
           lineBarsData: [
@@ -179,7 +216,10 @@ class _OccupancyChart extends StatelessWidget {
               barWidth: 3,
               isCurved: true,
               dotData: const FlDotData(show: true),
-              belowBarData: BarAreaData(show: true, color: theme.colorScheme.primaryContainer),
+              belowBarData: BarAreaData(
+                show: true,
+                color: theme.colorScheme.primaryContainer,
+              ),
             ),
             LineChartBarData(
               spots: projected,

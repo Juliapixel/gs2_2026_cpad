@@ -49,16 +49,38 @@ class ReportsScreen extends ConsumerWidget {
                             spacing: 8,
                             children: [
                               Expanded(
-                                child: Text(Texts.translate(Texts.reportTypes, report.type),
-                                    style: theme.textTheme.titleSmall?.copyWith(fontWeight: .bold)),
+                                child: Text(
+                                  Texts.translate(
+                                    Texts.reportTypes,
+                                    report.type,
+                                  ),
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    fontWeight: .bold,
+                                  ),
+                                ),
                               ),
-                              StatusBadge(Texts.translate(Texts.reportStatus, report.status), .info),
+                              StatusBadge(
+                                Texts.translate(
+                                  Texts.reportStatus,
+                                  report.status,
+                                ),
+                                .info,
+                              ),
                             ],
                           ),
-                          Text("${report.unitName} · ${Texts.translate(Texts.reportWhen, report.when)}",
-                              style: theme.textTheme.labelMedium?.copyWith(color: theme.hintColor)),
+                          Text(
+                            "${report.unitName} · ${Texts.translate(Texts.reportWhen, report.when)}",
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              color: theme.hintColor,
+                            ),
+                          ),
                           Text(report.description),
-                          Text(report.id, style: theme.textTheme.labelSmall?.copyWith(color: theme.hintColor)),
+                          Text(
+                            report.id,
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: theme.hintColor,
+                            ),
+                          ),
                         ],
                       ),
                     ),

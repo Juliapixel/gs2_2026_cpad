@@ -22,7 +22,8 @@ class TerritoryScreen extends ConsumerWidget {
       value: ref.watch(territoryProvider),
       onRetry: () => ref.refresh(territoryProvider.future),
       builder: (context, territory) {
-        int count(String priority) => territory.priorities.where((a) => a.priority == priority).length;
+        int count(String priority) =>
+            territory.priorities.where((a) => a.priority == priority).length;
         return ListView(
           padding: const .all(16),
           children: [
@@ -31,12 +32,17 @@ class TerritoryScreen extends ConsumerWidget {
               children: [
                 KpiCard("Máxima do dia", territory.dayMax, lowerIsBetter: true),
                 KpiCard("Cobertura da atenção básica", territory.coverage),
-                StatusCard("Áreas prioritárias", "${territory.priorityAreas}/${territory.totalAreas}",
-                    const StatusText("critério social")),
+                StatusCard(
+                  "Áreas prioritárias",
+                  "${territory.priorityAreas}/${territory.totalAreas}",
+                  const StatusText("critério social"),
+                ),
                 KpiCard("Visitas previstas", territory.plannedVisits),
               ],
             ),
-            SectionTitle("Áreas por prioridade (${Texts.translate(Texts.areaLevel, territory.areaLevel)})"),
+            SectionTitle(
+              "Áreas por prioridade (${Texts.translate(Texts.areaLevel, territory.areaLevel)})",
+            ),
             FluxoBarChart(
               maxY: (territory.priorities.length.clamp(4, 100)).toDouble(),
               description: "Quantidade de áreas por prioridade",
@@ -53,10 +59,21 @@ class TerritoryScreen extends ConsumerWidget {
                 child: FluxoContainer(
                   child: Row(
                     children: [
-                      Expanded(child: Text(area.area, style: theme.textTheme.titleSmall?.copyWith(fontWeight: .bold))),
+                      Expanded(
+                        child: Text(
+                          area.area,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: .bold,
+                          ),
+                        ),
+                      ),
                       StatusBadge(
                         Texts.translate(Texts.priority, area.priority),
-                        switch (area.priority) { "alta" => .critical, "moderada" => .warning, _ => .ok },
+                        switch (area.priority) {
+                          "alta" => .critical,
+                          "moderada" => .warning,
+                          _ => .ok,
+                        },
                       ),
                     ],
                   ),

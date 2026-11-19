@@ -15,7 +15,10 @@ class NewReportScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Novo relato"), foregroundColor: Colors.white),
+      appBar: AppBar(
+        title: const Text("Novo relato"),
+        foregroundColor: Colors.white,
+      ),
       body: AsyncView(
         value: ref.watch(reportOptionsProvider),
         onRetry: () => ref.refresh(reportOptionsProvider.future),
@@ -68,11 +71,21 @@ class _ReportFormState extends ConsumerState<_ReportForm> {
         "descricao": _description.text.trim(),
         "consentimento_uso_agregado": _consent,
       });
-      messenger.showSnackBar(const SnackBar(content: Text("Relato registrado. Obrigado por contribuir!")));
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text("Relato registrado. Obrigado por contribuir!"),
+        ),
+      );
       navigator.pop(true);
     } on ApiException catch (e) {
       final fields = e.fields.map((f) => f["campo"]).join(", ");
-      messenger.showSnackBar(SnackBar(content: Text(fields.isEmpty ? describeError(e) : "Confira os campos: $fields")));
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            fields.isEmpty ? describeError(e) : "Confira os campos: $fields",
+          ),
+        ),
+      );
     } on Exception catch (e) {
       messenger.showSnackBar(SnackBar(content: Text(describeError(e))));
     } finally {
@@ -97,24 +110,48 @@ class _ReportFormState extends ConsumerState<_ReportForm> {
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
             initialValue: _unitId,
-            decoration: const InputDecoration(labelText: "Unidade de saúde", border: OutlineInputBorder()),
-            items: [for (final unit in options.units) DropdownMenuItem(value: unit.id, child: Text(unit.name))],
+            decoration: const InputDecoration(
+              labelText: "Unidade de saúde",
+              border: OutlineInputBorder(),
+            ),
+            items: [
+              for (final unit in options.units)
+                DropdownMenuItem(value: unit.id, child: Text(unit.name)),
+            ],
             onChanged: (v) => setState(() => _unitId = v),
             validator: validateRequired,
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
             initialValue: _type,
-            decoration: const InputDecoration(labelText: "Tipo de ocorrência", border: OutlineInputBorder()),
-            items: [for (final type in options.types) DropdownMenuItem(value: type, child: Text(Texts.translate(Texts.reportTypes, type)))],
+            decoration: const InputDecoration(
+              labelText: "Tipo de ocorrência",
+              border: OutlineInputBorder(),
+            ),
+            items: [
+              for (final type in options.types)
+                DropdownMenuItem(
+                  value: type,
+                  child: Text(Texts.translate(Texts.reportTypes, type)),
+                ),
+            ],
             onChanged: (v) => setState(() => _type = v),
             validator: validateRequired,
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
             initialValue: _when,
-            decoration: const InputDecoration(labelText: "Quando aconteceu", border: OutlineInputBorder()),
-            items: [for (final when in options.whenOptions) DropdownMenuItem(value: when, child: Text(Texts.translate(Texts.reportWhen, when)))],
+            decoration: const InputDecoration(
+              labelText: "Quando aconteceu",
+              border: OutlineInputBorder(),
+            ),
+            items: [
+              for (final when in options.whenOptions)
+                DropdownMenuItem(
+                  value: when,
+                  child: Text(Texts.translate(Texts.reportWhen, when)),
+                ),
+            ],
             onChanged: (v) => setState(() => _when = v),
             validator: validateRequired,
           ),
@@ -138,16 +175,24 @@ class _ReportFormState extends ConsumerState<_ReportForm> {
             }),
             controlAffinity: .leading,
             contentPadding: .zero,
-            title: const Text("Autorizo o uso anônimo e agregado deste relato para melhorar a rede de saúde."),
+            title: const Text(
+              "Autorizo o uso anônimo e agregado deste relato para melhorar a rede de saúde.",
+            ),
             subtitle: _showConsentError
-                ? Text("É preciso consentir para enviar", style: TextStyle(color: theme.colorScheme.error))
+                ? Text(
+                    "É preciso consentir para enviar",
+                    style: TextStyle(color: theme.colorScheme.error),
+                  )
                 : null,
           ),
           const SizedBox(height: 16),
           FilledButton.icon(
             onPressed: _sending ? null : _submit,
             icon: _sending
-                ? const SizedBox.square(dimension: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                ? const SizedBox.square(
+                    dimension: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                 : const Icon(Icons.send),
             label: Text(_sending ? "Enviando..." : "Enviar relato"),
           ),

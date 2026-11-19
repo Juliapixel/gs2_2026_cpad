@@ -11,7 +11,11 @@ class SectionTitle extends StatelessWidget {
       padding: const .only(top: 8),
       child: Semantics(
         header: true,
-        child: Text(text, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: .bold)),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.titleMedium
+              ?.copyWith(fontWeight: .bold),
+        ),
       ),
     );
   }

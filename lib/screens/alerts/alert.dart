@@ -21,71 +21,127 @@ class AlertScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: Text("Alerta $id"), foregroundColor: Colors.white),
-      body: AsyncView(
-        value: ref.watch(alertProvider(id)),
-        onRetry: () => ref.refresh(alertProvider(id).future),
-        builder: (context, alert) => ListView(
-          padding: const .all(16),
-          children: [
-            const NoticeBanner(Texts.humanDecisionNotice, kind: .warning, icon: Icons.gavel),
-            const SizedBox(height: 8),
-            Row(
-              spacing: 8,
-              children: [
-                StatusBadge(Texts.translate(Texts.severity, alert.severity), .warning),
-                StatusBadge(alert.status == "ativo" ? "Ativo" : "Resolvido", alert.status == "ativo" ? .critical : .ok),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(Texts.translate(Texts.alertType, alert.type), style: theme.textTheme.headlineSmall?.copyWith(fontWeight: .bold)),
-            Text("${alert.unitName} · ${alert.territory.label}", style: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor)),
-            const SectionTitle("Projeção"),
-            KpiGrid(
-              children: [
-                StatusCard("Ocupação agora", "${alert.projection.currentOccupancyPct}%", null),
-                StatusCard(
-                  "Previsto para as ${alert.forecastHour}h",
-                  "${alert.projection.valuePct}%",
-                  StatusText("faixa de ${alert.projection.minPct}% a ${alert.projection.maxPct}%"),
-                ),
-              ],
-            ),
-            const SectionTitle("Por que este alerta apareceu (evidências)"),
-            FluxoContainer(
-              child: Column(
-                crossAxisAlignment: .start,
-                spacing: 8,
-                children: [for (final reason in alert.reasons) _Item(Icons.check_circle_outline, _describeReason(reason))],
+      body: SafeArea(
+        child: AsyncView(
+          value: ref.watch(alertProvider(id)),
+          onRetry: () => ref.refresh(alertProvider(id).future),
+          builder: (context, alert) => ListView(
+            padding: const .all(16),
+            children: [
+              const NoticeBanner(
+                Texts.humanDecisionNotice,
+                kind: .warning,
+                icon: Icons.gavel,
               ),
-            ),
-            const SectionTitle("Nível de confiança"),
-            FluxoContainer(
-              child: Row(
-                spacing: 12,
+              const SizedBox(height: 8),
+              Row(
+                spacing: 8,
                 children: [
                   StatusBadge(
-                    Texts.translate(Texts.confidenceLevel, alert.confidenceLevel),
-                    switch (alert.confidenceLevel) { "alta" => .ok, "moderada" => .warning, _ => .critical },
+                    Texts.translate(Texts.severity, alert.severity),
+                    .warning,
                   ),
-                  Expanded(child: Text("${(alert.confidence * 100).round()}% de confiança na projeção, com horizonte de ${alert.projection.horizonHours}h.")),
+                  StatusBadge(
+                    alert.status == "ativo" ? "Ativo" : "Resolvido",
+                    alert.status == "ativo" ? .critical : .ok,
+                  ),
                 ],
               ),
-            ),
-            const SectionTitle("Limitações"),
-            FluxoContainer(
-              child: Column(
-                crossAxisAlignment: .start,
-                spacing: 8,
+              const SizedBox(height: 8),
+              Text(
+                Texts.translate(Texts.alertType, alert.type),
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: .bold,
+                ),
+              ),
+              Text(
+                "${alert.unitName} · ${alert.territory.label}",
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.hintColor,
+                ),
+              ),
+              const SectionTitle("Projeção"),
+              KpiGrid(
                 children: [
-                  for (final code in alert.limitations) _Item(Icons.warning_amber_outlined, Texts.translate(Texts.limitations, code)),
-                  const _Item(Icons.warning_amber_outlined, "A previsão não é confiável fora da cobertura da API ou com confiança baixa."),
+                  StatusCard(
+                    "Ocupação agora",
+                    "${alert.projection.currentOccupancyPct}%",
+                    null,
+                  ),
+                  StatusCard(
+                    "Previsto para as ${alert.forecastHour}h",
+                    "${alert.projection.valuePct}%",
+                    StatusText(
+                      "faixa de ${alert.projection.minPct}% a ${alert.projection.maxPct}%",
+                    ),
+                  ),
                 ],
               ),
-            ),
-            const SizedBox(height: 12),
-            Text("Gerado em ${alert.generatedAt.replaceFirst("T", " às ").substring(0, 19)}",
-                style: theme.textTheme.labelMedium?.copyWith(color: theme.hintColor)),
-          ],
+              const SectionTitle("Por que este alerta apareceu (evidências)"),
+              FluxoContainer(
+                child: Column(
+                  crossAxisAlignment: .start,
+                  spacing: 8,
+                  children: [
+                    for (final reason in alert.reasons)
+                      _Item(
+                        Icons.check_circle_outline,
+                        _describeReason(reason),
+                      ),
+                  ],
+                ),
+              ),
+              const SectionTitle("Nível de confiança"),
+              FluxoContainer(
+                child: Row(
+                  spacing: 12,
+                  children: [
+                    StatusBadge(
+                      Texts.translate(
+                        Texts.confidenceLevel,
+                        alert.confidenceLevel,
+                      ),
+                      switch (alert.confidenceLevel) {
+                        "alta" => .ok,
+                        "moderada" => .warning,
+                        _ => .critical,
+                      },
+                    ),
+                    Expanded(
+                      child: Text(
+                        "${(alert.confidence * 100).round()}% de confiança na projeção, com horizonte de ${alert.projection.horizonHours}h.",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SectionTitle("Limitações"),
+              FluxoContainer(
+                child: Column(
+                  crossAxisAlignment: .start,
+                  spacing: 8,
+                  children: [
+                    for (final code in alert.limitations)
+                      _Item(
+                        Icons.warning_amber_outlined,
+                        Texts.translate(Texts.limitations, code),
+                      ),
+                    const _Item(
+                      Icons.warning_amber_outlined,
+                      "A previsão não é confiável fora da cobertura da API ou com confiança baixa.",
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                "Gerado em ${alert.generatedAt.replaceFirst("T", " às ").substring(0, 19)}",
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: theme.hintColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

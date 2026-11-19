@@ -41,9 +41,13 @@ class FluxoColors extends ThemeExtension<FluxoColors> {
     if (other is! FluxoColors) return this;
     return FluxoColors(
       success: Color.lerp(success, other.success, t) ?? success,
-      successContainer: Color.lerp(successContainer, other.successContainer, t) ?? successContainer,
+      successContainer:
+          Color.lerp(successContainer, other.successContainer, t) ??
+          successContainer,
       warning: Color.lerp(warning, other.warning, t) ?? warning,
-      warningContainer: Color.lerp(warningContainer, other.warningContainer, t) ?? warningContainer,
+      warningContainer:
+          Color.lerp(warningContainer, other.warningContainer, t) ??
+          warningContainer,
     );
   }
 }

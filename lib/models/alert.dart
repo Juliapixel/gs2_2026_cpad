@@ -56,10 +56,20 @@ class Alert extends AlertSummary {
   final String generatedAt;
 
   Alert.fromJson(super.json)
-    : territory = Locality.fromJson(json["territorio"] as Map<String, Object?>? ?? {}),
-      projection = Projection.fromJson(json["projecao"] as Map<String, Object?>? ?? {}),
-      thresholdPct = ((json["regra"] as Map<String, Object?>?)?["limiar_pct"] as num?)?.toInt() ?? 0,
-      durationMin = ((json["regra"] as Map<String, Object?>?)?["duracao_min"] as num?)?.toInt() ?? 0,
+    : territory = Locality.fromJson(
+        json["territorio"] as Map<String, Object?>? ?? {},
+      ),
+      projection = Projection.fromJson(
+        json["projecao"] as Map<String, Object?>? ?? {},
+      ),
+      thresholdPct =
+          ((json["regra"] as Map<String, Object?>?)?["limiar_pct"] as num?)
+              ?.toInt() ??
+          0,
+      durationMin =
+          ((json["regra"] as Map<String, Object?>?)?["duracao_min"] as num?)
+              ?.toInt() ??
+          0,
       reasons = (json["motivos"] as List<Object?>? ?? [])
           .map((r) => Reason.fromJson(r as Map<String, Object?>))
           .toList(),

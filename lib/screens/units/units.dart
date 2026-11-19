@@ -22,12 +22,18 @@ class UnitsScreen extends ConsumerWidget {
       builder: (context, capacity) => ListView(
         padding: const .all(16),
         children: [
-          SectionTitle("Capacidade · ${capacity.openUnits} de ${capacity.totalUnits} unidades abertas"),
+          SectionTitle(
+            "Capacidade · ${capacity.openUnits} de ${capacity.totalUnits} unidades abertas",
+          ),
           KpiGrid(
             children: [
               KpiCard("Vagas totais", capacity.totalBeds),
               KpiCard("Vagas livres", capacity.freeBeds),
-              KpiCard("Espera média", capacity.averageWait, lowerIsBetter: true),
+              KpiCard(
+                "Espera média",
+                capacity.averageWait,
+                lowerIsBetter: true,
+              ),
               KpiCard("Equipes", capacity.teams),
             ],
           ),
@@ -35,14 +41,22 @@ class UnitsScreen extends ConsumerWidget {
           FluxoBarChart(
             maxY: 100,
             threshold: capacity.attentionThresholdPct.toDouble(),
-            description: "Gráfico de ocupação por unidade, limiar de atenção em ${capacity.attentionThresholdPct}%",
+            description:
+                "Gráfico de ocupação por unidade, limiar de atenção em ${capacity.attentionThresholdPct}%",
             bars: [
               for (final (i, unit) in capacity.units.indexed)
-                Bar("${i + 1}", unit.occupancyPct.toDouble(), unit.aboveThreshold ? theme.colorScheme.error : theme.primaryColor),
+                Bar(
+                  "${i + 1}",
+                  unit.occupancyPct.toDouble(),
+                  unit.aboveThreshold
+                      ? theme.colorScheme.error
+                      : theme.primaryColor,
+                ),
             ],
           ),
           const SectionTitle("Unidades"),
-          for (final (i, unit) in capacity.units.indexed) _UnitTile(index: i + 1, unit: unit),
+          for (final (i, unit) in capacity.units.indexed)
+            _UnitTile(index: i + 1, unit: unit),
         ],
       ),
     );
@@ -74,8 +88,13 @@ class _UnitTile extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: Text("$index. ${unit.name}",
-                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: .bold), overflow: .ellipsis),
+                  child: Text(
+                    "$index. ${unit.name}",
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: .bold,
+                    ),
+                    overflow: .ellipsis,
+                  ),
                 ),
                 StatusBadge(text, kind),
               ],
@@ -86,11 +105,17 @@ class _UnitTile extends StatelessWidget {
                 value: unit.occupancyPct / 100,
                 minHeight: 8,
                 borderRadius: .circular(4),
-                color: unit.aboveThreshold ? theme.colorScheme.error : theme.extension<FluxoColors>()!.success,
+                color: unit.aboveThreshold
+                    ? theme.colorScheme.error
+                    : theme.extension<FluxoColors>()!.success,
               ),
             ),
-            Text("${unit.type} · ocupação ${unit.occupancyPct}%",
-                style: theme.textTheme.labelMedium?.copyWith(color: theme.hintColor)),
+            Text(
+              "${unit.type} · ocupação ${unit.occupancyPct}%",
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: theme.hintColor,
+              ),
+            ),
           ],
         ),
       ),

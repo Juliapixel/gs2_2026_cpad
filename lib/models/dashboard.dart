@@ -1,7 +1,8 @@
 import 'package:cpad/models/alert.dart';
 import 'package:cpad/models/kpi.dart';
 
-Map<String, Object?> _map(Object? value) => value as Map<String, Object?>? ?? {};
+Map<String, Object?> _map(Object? value) =>
+    value as Map<String, Object?>? ?? {};
 
 class Network {
   final Kpi occupancy;
@@ -15,9 +16,16 @@ class Network {
   Network.fromJson(Map<String, Object?> json)
     : occupancy = Kpi.fromJson(_map(_map(json["kpis"])["ocupacao_rede"])),
       averageWait = Kpi.fromJson(_map(_map(json["kpis"])["espera_media"])),
-      unitsInAttention = (_map(_map(json["kpis"])["em_atencao"])["valor"] as num?)?.toInt() ?? 0,
-      totalUnits = (_map(_map(json["kpis"])["em_atencao"])["total"] as num?)?.toInt() ?? 0,
-      activePlans = (_map(_map(json["kpis"])["em_atencao"])["plano_ativo"] as num?)?.toInt() ?? 0,
+      unitsInAttention =
+          (_map(_map(json["kpis"])["em_atencao"])["valor"] as num?)?.toInt() ??
+          0,
+      totalUnits =
+          (_map(_map(json["kpis"])["em_atencao"])["total"] as num?)?.toInt() ??
+          0,
+      activePlans =
+          (_map(_map(json["kpis"])["em_atencao"])["plano_ativo"] as num?)
+              ?.toInt() ??
+          0,
       avoidedWait = Kpi.fromJson(_map(_map(json["kpis"])["espera_evitada"])),
       highlightedAlert = json["alerta_destaque"] == null
           ? null
@@ -58,7 +66,8 @@ class Capacity {
       freeBeds = Kpi.fromJson(_map(_map(json["kpis"])["vagas_livres"])),
       averageWait = Kpi.fromJson(_map(_map(json["kpis"])["espera_media"])),
       teams = Kpi.fromJson(_map(_map(json["kpis"])["equipes"])),
-      attentionThresholdPct = (json["limiar_atencao_pct"] as num?)?.toInt() ?? 85,
+      attentionThresholdPct =
+          (json["limiar_atencao_pct"] as num?)?.toInt() ?? 85,
       units = (json["unidades"] as List<Object?>? ?? [])
           .map((u) => UnitCapacity.fromJson(u as Map<String, Object?>))
           .toList();
@@ -85,9 +94,17 @@ class Territory {
   Territory.fromJson(Map<String, Object?> json)
     : dayMax = Kpi.fromJson(_map(_map(json["kpis"])["maxima_do_dia"])),
       coverage = Kpi.fromJson(_map(_map(json["kpis"])["cobertura"])),
-      priorityAreas = (_map(_map(json["kpis"])["areas_prioritarias"])["valor"] as num?)?.toInt() ?? 0,
-      totalAreas = (_map(_map(json["kpis"])["areas_prioritarias"])["total"] as num?)?.toInt() ?? 0,
-      plannedVisits = Kpi.fromJson(_map(_map(json["kpis"])["visitas_previstas"])),
+      priorityAreas =
+          (_map(_map(json["kpis"])["areas_prioritarias"])["valor"] as num?)
+              ?.toInt() ??
+          0,
+      totalAreas =
+          (_map(_map(json["kpis"])["areas_prioritarias"])["total"] as num?)
+              ?.toInt() ??
+          0,
+      plannedVisits = Kpi.fromJson(
+        _map(_map(json["kpis"])["visitas_previstas"]),
+      ),
       areaLevel = json["nivel_area"] as String? ?? "",
       priorities = (json["prioridades"] as List<Object?>? ?? [])
           .map((p) => AreaPriority.fromJson(p as Map<String, Object?>))
@@ -119,18 +136,39 @@ class OccupancyIndicator {
   final AlertSummary? highlightedAlert;
 
   OccupancyIndicator.fromJson(Map<String, Object?> json)
-    : occupancyPct = (_map(json["indicador"])["ocupacao_pct"] as num?)?.toInt() ?? 0,
-      occupiedBeds = (_map(json["indicador"])["vagas_ocupadas"] as num?)?.toInt() ?? 0,
-      totalBeds = (_map(json["indicador"])["vagas_total"] as num?)?.toInt() ?? 0,
+    : occupancyPct =
+          (_map(json["indicador"])["ocupacao_pct"] as num?)?.toInt() ?? 0,
+      occupiedBeds =
+          (_map(json["indicador"])["vagas_ocupadas"] as num?)?.toInt() ?? 0,
+      totalBeds =
+          (_map(json["indicador"])["vagas_total"] as num?)?.toInt() ?? 0,
       change = (_map(json["indicador"])["variacao"] as num?)?.toInt() ?? 0,
       window = _map(json["indicador"])["janela"] as String? ?? "7d",
-      thresholdPct = (_map(_map(json["indicador"])["limiar_atencao"])["limiar_pct"] as num?)?.toInt() ?? 85,
-      durationMin = (_map(_map(json["indicador"])["limiar_atencao"])["duracao_min"] as num?)?.toInt() ?? 30,
-      highlightedUnit = _map(_map(json["indicador"])["unidade_destaque"])["nome"] as String? ?? "",
-      highlightedUnitPct = (_map(_map(json["indicador"])["unidade_destaque"])["ocupacao_pct"] as num?)?.toInt() ?? 0,
-      points = (_map(_map(json["indicador"])["grafico"])["pontos"] as List<Object?>? ?? [])
-          .map((p) => OccupancyPoint.fromJson(p as Map<String, Object?>))
-          .toList(),
+      thresholdPct =
+          (_map(_map(json["indicador"])["limiar_atencao"])["limiar_pct"]
+                  as num?)
+              ?.toInt() ??
+          85,
+      durationMin =
+          (_map(_map(json["indicador"])["limiar_atencao"])["duracao_min"]
+                  as num?)
+              ?.toInt() ??
+          30,
+      highlightedUnit =
+          _map(_map(json["indicador"])["unidade_destaque"])["nome"]
+              as String? ??
+          "",
+      highlightedUnitPct =
+          (_map(_map(json["indicador"])["unidade_destaque"])["ocupacao_pct"]
+                  as num?)
+              ?.toInt() ??
+          0,
+      points =
+          (_map(_map(json["indicador"])["grafico"])["pontos"]
+                      as List<Object?>? ??
+                  [])
+              .map((p) => OccupancyPoint.fromJson(p as Map<String, Object?>))
+              .toList(),
       highlightedAlert = json["alerta_destaque"] == null
           ? null
           : AlertSummary.fromJson(_map(json["alerta_destaque"]));

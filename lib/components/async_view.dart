@@ -57,7 +57,11 @@ class AsyncView<T> extends StatelessWidget {
       },
       data: (response) {
         if (isEmpty?.call(response.data) ?? false) {
-          return _StatusView(icon: Icons.inbox_outlined, title: emptyText, onRetry: onRetry);
+          return _StatusView(
+            icon: Icons.inbox_outlined,
+            title: emptyText,
+            onRetry: onRetry,
+          );
         }
         final cachedAt = response.cachedAt;
         return Column(
@@ -90,7 +94,12 @@ class _StatusView extends StatelessWidget {
   final String? message;
   final Future<void> Function()? onRetry;
 
-  const _StatusView({required this.icon, required this.title, this.message, this.onRetry});
+  const _StatusView({
+    required this.icon,
+    required this.title,
+    this.message,
+    this.onRetry,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +118,21 @@ class _StatusView extends StatelessWidget {
                   spacing: 12,
                   children: [
                     Icon(icon, size: 48, color: theme.hintColor),
-                    Text(title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: .bold), textAlign: .center),
+                    Text(
+                      title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: .bold,
+                      ),
+                      textAlign: .center,
+                    ),
                     if (message != null)
-                      Text(message!, style: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor), textAlign: .center),
+                      Text(
+                        message!,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.hintColor,
+                        ),
+                        textAlign: .center,
+                      ),
                     if (onRetry != null)
                       OutlinedButton.icon(
                         onPressed: onRetry,

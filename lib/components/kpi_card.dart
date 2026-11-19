@@ -10,7 +10,13 @@ class KpiCard extends StatelessWidget {
   final bool lowerIsBetter;
   final VoidCallback? onTap;
 
-  const KpiCard(this.title, this.kpi, {super.key, this.lowerIsBetter = false, this.onTap});
+  const KpiCard(
+    this.title,
+    this.kpi, {
+    super.key,
+    this.lowerIsBetter = false,
+    this.onTap,
+  });
 
   StatusText? get _trend {
     final text = kpi.formattedChange;
@@ -45,7 +51,11 @@ class KpiGrid extends StatelessWidget {
               spacing: 12,
               children: [
                 Expanded(child: children[i]),
-                Expanded(child: i + 1 < children.length ? children[i + 1] : const SizedBox()),
+                Expanded(
+                  child: i + 1 < children.length
+                      ? children[i + 1]
+                      : const SizedBox(),
+                ),
               ],
             ),
           ),

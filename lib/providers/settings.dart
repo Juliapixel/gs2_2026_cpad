@@ -23,7 +23,9 @@ class Settings {
       Settings(host: host ?? this.host, locality: locality ?? this.locality);
 }
 
-final prefsProvider = Provider<SharedPreferencesAsync>((ref) => SharedPreferencesAsync());
+final prefsProvider = Provider<SharedPreferencesAsync>(
+  (ref) => SharedPreferencesAsync(),
+);
 
 class SettingsNotifier extends AsyncNotifier<Settings> {
   SharedPreferencesAsync get _prefs => ref.read(prefsProvider);
@@ -34,7 +36,9 @@ class SettingsNotifier extends AsyncNotifier<Settings> {
     final localityJson = await _prefs.getString(_localityKey);
     Locality locality = Locality.defaultLocality;
     if (localityJson != null) {
-      locality = Locality.fromJson(jsonDecode(localityJson) as Map<String, Object?>);
+      locality = Locality.fromJson(
+        jsonDecode(localityJson) as Map<String, Object?>,
+      );
     }
     return Settings(
       host: (host == null || host.isEmpty) ? _defaultApiHost : host,
@@ -51,7 +55,9 @@ class SettingsNotifier extends AsyncNotifier<Settings> {
   }
 }
 
-final settingsProvider = AsyncNotifierProvider<SettingsNotifier, Settings>(SettingsNotifier.new);
+final settingsProvider = AsyncNotifierProvider<SettingsNotifier, Settings>(
+  SettingsNotifier.new,
+);
 
 final apiProvider = FutureProvider<FluxoMedApi>((ref) async {
   final settings = await ref.watch(settingsProvider.future);

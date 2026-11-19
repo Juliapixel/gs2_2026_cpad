@@ -50,7 +50,9 @@ class MyApp extends StatelessWidget {
               outlineVariant: Colors.black12,
             ),
         fontFamily: "Inter",
-        appBarTheme: AppBarThemeData(backgroundColor: Color.fromARGB(255, 7, 43, 98)),
+        appBarTheme: AppBarThemeData(
+          backgroundColor: Color.fromARGB(255, 7, 43, 98),
+        ),
       ),
       initialRoute: Routes.home,
       onGenerateRoute: generateRoute,

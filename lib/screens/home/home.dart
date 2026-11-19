@@ -39,12 +39,17 @@ class HomeScreen extends ConsumerWidget {
                 "${network.unitsInAttention}/${network.totalUnits}",
                 StatusText("${network.activePlans} com plano ativo"),
               ),
-              KpiCard("Horas de espera evitadas (benefício social)", network.avoidedWait),
+              KpiCard(
+                "Horas de espera evitadas (benefício social)",
+                network.avoidedWait,
+              ),
             ],
           ),
           const SectionTitle("Alerta em destaque"),
           if (network.highlightedAlert == null)
-            FluxoContainer(child: const Text("Nenhum alerta ativo nesta localidade."))
+            FluxoContainer(
+              child: const Text("Nenhum alerta ativo nesta localidade."),
+            )
           else
             AlertCard(network.highlightedAlert!),
         ],
@@ -63,10 +68,12 @@ class AlertCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Semantics(
       button: true,
-      label: "Alerta ${alert.id}: ${Texts.translate(Texts.alertType, alert.type)} em ${alert.unitName}",
+      label:
+          "Alerta ${alert.id}: ${Texts.translate(Texts.alertType, alert.type)} em ${alert.unitName}",
       child: InkWell(
         borderRadius: .circular(14),
-        onTap: () => Navigator.pushNamed(context, Routes.alert, arguments: alert.id),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.alert, arguments: alert.id),
         child: FluxoContainer(
           child: Column(
             crossAxisAlignment: .start,
@@ -75,14 +82,30 @@ class AlertCard extends StatelessWidget {
               Row(
                 spacing: 8,
                 children: [
-                  StatusBadge(Texts.translate(Texts.severity, alert.severity), .warning),
-                  StatusBadge("Confiança ${Texts.translate(Texts.confidenceLevel, alert.confidenceLevel).toLowerCase()}", .info),
+                  StatusBadge(
+                    Texts.translate(Texts.severity, alert.severity),
+                    .warning,
+                  ),
+                  StatusBadge(
+                    "Confiança ${Texts.translate(Texts.confidenceLevel, alert.confidenceLevel).toLowerCase()}",
+                    .info,
+                  ),
                 ],
               ),
-              Text(Texts.translate(Texts.alertType, alert.type), style: textTheme.titleMedium?.copyWith(fontWeight: .bold)),
-              Text("${alert.unitName} · previsão para as ${alert.forecastHour}h", style: textTheme.bodyMedium),
-              Text("${alert.id} · toque para ver justificativa e limitações",
-                  style: textTheme.labelMedium?.copyWith(color: Theme.of(context).hintColor)),
+              Text(
+                Texts.translate(Texts.alertType, alert.type),
+                style: textTheme.titleMedium?.copyWith(fontWeight: .bold),
+              ),
+              Text(
+                "${alert.unitName} · previsão para as ${alert.forecastHour}h",
+                style: textTheme.bodyMedium,
+              ),
+              Text(
+                "${alert.id} · toque para ver justificativa e limitações",
+                style: textTheme.labelMedium?.copyWith(
+                  color: Theme.of(context).hintColor,
+                ),
+              ),
             ],
           ),
         ),

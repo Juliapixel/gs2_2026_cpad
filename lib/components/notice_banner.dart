@@ -6,7 +6,12 @@ class NoticeBanner extends StatelessWidget {
   final StatusKind kind;
   final IconData icon;
 
-  const NoticeBanner(this.text, {super.key, this.kind = .info, this.icon = Icons.info_outline});
+  const NoticeBanner(
+    this.text, {
+    super.key,
+    this.kind = .info,
+    this.icon = Icons.info_outline,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,8 @@ class NoticeBanner extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: color, fontWeight: .w500),
+              style: Theme.of(context).textTheme.bodySmall
+                  ?.copyWith(color: color, fontWeight: .w500),
             ),
           ),
         ],

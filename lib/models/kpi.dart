@@ -18,7 +18,9 @@ class Kpi {
 
   String? get formattedChange {
     if (change == null) return null;
-    final period = window == null ? "" : " ${Texts.translate(Texts.window, window!)}";
+    final period = window == null
+        ? ""
+        : " ${Texts.translate(Texts.window, window!)}";
     if (change == 0) return "estável$period";
     return "${formatValue(change!.abs(), changeUnit)}$period";
   }

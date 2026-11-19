@@ -8,7 +8,13 @@ class StatusCard extends StatelessWidget {
   final StatusText? status;
   final VoidCallback? onTap;
 
-  const StatusCard(this.eyebrow, this.text, this.status, {super.key, this.onTap});
+  const StatusCard(
+    this.eyebrow,
+    this.text,
+    this.status, {
+    super.key,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +68,8 @@ class StatusText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.labelMedium?.copyWith(color: _color(context)),
+      style: Theme.of(context).textTheme.labelMedium
+          ?.copyWith(color: _color(context)),
       maxLines: 2,
       overflow: .ellipsis,
     );

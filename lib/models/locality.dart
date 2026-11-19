@@ -5,14 +5,22 @@ class Locality {
 
   const Locality({required this.uf, required this.municipality, this.district});
 
-  static const defaultLocality = Locality(uf: "SP", municipality: "São Paulo", district: "Itaquera");
+  static const defaultLocality = Locality(
+    uf: "SP",
+    municipality: "São Paulo",
+    district: "Itaquera",
+  );
 
   Locality.fromJson(Map<String, Object?> json)
     : uf = json["uf"] as String? ?? "",
       municipality = json["municipio"] as String? ?? "",
       district = json["distrito"] as String?;
 
-  Map<String, Object?> toJson() => {"uf": uf, "municipio": municipality, "distrito": district};
+  Map<String, Object?> toJson() => {
+    "uf": uf,
+    "municipio": municipality,
+    "distrito": district,
+  };
 
   Map<String, String> get query => {
     "uf": uf,

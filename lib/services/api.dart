@@ -12,7 +12,8 @@ class ApiResponse<T> {
 
   const ApiResponse(this.data, {this.cachedAt});
 
-  ApiResponse<R> map<R>(R Function(T) f) => ApiResponse(f(data), cachedAt: cachedAt);
+  ApiResponse<R> map<R>(R Function(T) f) =>
+      ApiResponse(f(data), cachedAt: cachedAt);
 }
 
 /// HTTP 200 with status "indisponivel".
@@ -48,7 +49,10 @@ class FluxoMedApi {
       base.replace(path: path, queryParameters: query.isEmpty ? null : query);
 
   /// Success stores the response in the cache; a network failure returns the last stored copy.
-  Future<ApiResponse<Object?>> get(String path, {Map<String, String> query = const {}}) async {
+  Future<ApiResponse<Object?>> get(
+    String path, {
+    Map<String, String> query = const {},
+  }) async {
     final uri = _uri(path, query);
     final key = "cache:$uri";
     http.Response response;
@@ -68,11 +72,19 @@ class FluxoMedApi {
     return ApiResponse(body);
   }
 
-  Future<Object?> post(String path, Map<String, Object?> body, {Map<String, String> query = const {}}) async {
+  Future<Object?> post(
+    String path,
+    Map<String, Object?> body, {
+    Map<String, String> query = const {},
+  }) async {
     http.Response response;
     try {
       response = await http
-          .post(_uri(path, query), headers: {"content-type": "application/json"}, body: jsonEncode(body))
+          .post(
+            _uri(path, query),
+            headers: {"content-type": "application/json"},
+            body: jsonEncode(body),
+          )
           .timeout(_timeout);
     } on Exception {
       throw const NoConnectionException();
@@ -89,7 +101,10 @@ class FluxoMedApi {
     }
     if (response.statusCode >= 400) {
       final detail = body is Map<String, Object?> ? body["detail"] : null;
-      throw ApiException(response.statusCode, detail is Map<String, Object?> ? detail : {});
+      throw ApiException(
+        response.statusCode,
+        detail is Map<String, Object?> ? detail : {},
+      );
     }
     return body;
   }
@@ -98,12 +113,16 @@ class FluxoMedApi {
     final stored = await _prefs.getString(key);
     if (stored == null) throw const NoConnectionException();
     final doc = jsonDecode(stored) as Map<String, Object?>;
-    return ApiResponse(doc["corpo"], cachedAt: DateTime.tryParse(doc["salvo_em"] as String? ?? ""));
+    return ApiResponse(
+      doc["corpo"],
+      cachedAt: DateTime.tryParse(doc["salvo_em"] as String? ?? ""),
+    );
   }
 }
 
 String describeError(Object error) => switch (error) {
   NoConnectionException() => "Não foi possível conectar à API e não há cópia salva para esta localidade.",
-  ApiException(:final status, :final code) => "A API respondeu com erro $status ($code).",
+  ApiException(:final status, :final code) =>
+    "A API respondeu com erro $status ($code).",
   _ => "Algo deu errado: $error",
 };
