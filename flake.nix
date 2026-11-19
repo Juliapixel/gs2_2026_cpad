@@ -32,9 +32,6 @@
         };
     in
     {
-      packages = builtins.mapAttrs (system: pkgs: {
-        default = inputs.self.packages.${system}.hello;
-      }) inputs.nixpkgs.legacyPackages;
       devShells = builtins.mapAttrs (system: pkgs: {
         python = pkgs.callPackage ./api/shell.nix { venvDir = "./api/.venv"; };
         default = pkgs.mkShell (

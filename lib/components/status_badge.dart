@@ -7,7 +7,7 @@ enum StatusKind {
   warning,
   critical;
 
-  (Color, Color) _getColor(BuildContext context) {
+  (Color, Color) colors(BuildContext context) {
     final theme = Theme.of(context);
     switch (this) {
       case ok:
@@ -36,19 +36,19 @@ class StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (col, containterCol) = kind._getColor(context);
+    final (color, containerColor) = kind.colors(context);
     final textTheme = Theme.of(context).textTheme;
     return Container(
       height: 32,
       padding: .symmetric(horizontal: 12),
       alignment: .center,
       decoration: BoxDecoration(
-        color: containterCol,
+        color: containerColor,
         borderRadius: .all(.circular(12.0)),
       ),
       child: Text(
         text,
-        style: textTheme.labelMedium?.copyWith(fontWeight: .w600, color: col),
+        style: textTheme.labelMedium?.copyWith(fontWeight: .w600, color: color),
       ),
     );
   }
