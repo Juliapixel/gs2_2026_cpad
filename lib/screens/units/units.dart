@@ -105,6 +105,7 @@ class _UnitTile extends StatelessWidget {
                 value: unit.occupancyPct / 100,
                 minHeight: 8,
                 borderRadius: .circular(4),
+                backgroundColor: Colors.grey.shade400,
                 color: unit.aboveThreshold
                     ? theme.colorScheme.error
                     : theme.extension<FluxoColors>()!.success,
