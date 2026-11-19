@@ -3,10 +3,11 @@ import 'dart:convert';
 
 import 'package:cpad/models/locality.dart';
 import 'package:cpad/services/api.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _defaultApiHost = "localhost:8080";
+const _defaultApiHost = kReleaseMode ? "cpad.juliapixel.com" : "localhost:8080";
 const _hostKey = "API_HOST";
 const _localityKey = "LOCALIDADE";
 
@@ -16,7 +17,7 @@ class Settings {
 
   const Settings({required this.host, required this.locality});
 
-  Uri get baseUri => Uri.http(host);
+  Uri get baseUri => kReleaseMode ? Uri.https(host) : Uri.http(host);
 
   Settings copyWith({String? host, Locality? locality}) =>
       Settings(host: host ?? this.host, locality: locality ?? this.locality);
