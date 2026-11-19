@@ -6,11 +6,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => .fromHeight(_preferredHeight);
 
-  static final double _preferredHeight = 136.0;
+  static final double _preferredHeight = 100.0;
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme.apply(bodyColor: Colors.white, displayColor: Colors.white);
+    final textTheme = Theme.of(context).textTheme
+        .apply(bodyColor: Colors.white, displayColor: Colors.white);
 
     final logo = Text.rich(
       TextSpan(
@@ -62,22 +63,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     final bar = AppBar(
       title: SizedBox(
         height: _preferredHeight,
-        child:
-        Padding(padding: .symmetric(horizontal: 6, vertical: 16), child:
-          Column(
-            spacing: 6,
+        child: Padding(
+          padding: .symmetric(horizontal: 6, vertical: 16),
+          child: Column(
+            spacing: 3,
             mainAxisAlignment: .center,
             crossAxisAlignment: .start,
             children: [
               logo,
-              Text("PLACEHOLDER", style: textTheme.bodyMedium?.copyWith(fontWeight: .bold), maxLines: 1, overflow: .ellipsis,),
-              Text("Lugar, Sei lá", style: textTheme.bodyMedium, maxLines: 1, overflow: .ellipsis,),
+              Text(
+                "Lugar, Sei lá",
+                style: textTheme.bodyMedium,
+                maxLines: 1,
+                overflow: .ellipsis,
+              ),
             ],
-          )
-        ,)
+          ),
+        ),
       ),
       toolbarHeight: _preferredHeight,
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
     );
     return Theme(
       data: Theme.of(context).copyWith(

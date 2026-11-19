@@ -1,4 +1,6 @@
+import 'package:cpad/colors.dart';
 import 'package:cpad/components/myappbar.dart';
+import 'package:cpad/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        extensions: const [FluxoColors()],
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -49,48 +52,20 @@ class MyApp extends StatelessWidget {
               errorColor: Color(0xFFB42332),
               backgroundColor: Color(0xFFF3F6FA),
             ).copyWith(
-              primaryContainer: Color.fromARGB(255, 7, 43, 98),
+              primaryContainer: Color(0xFFEAF1FC),
               errorContainer: Color(0xFFFDEDEF),
               onPrimaryContainer: Colors.white,
             ),
         fontFamily: "Inter",
+        appBarTheme: AppBarThemeData(backgroundColor: Color.fromARGB(255, 7, 43, 98))
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -100,13 +75,39 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: MyAppBar(),
-      body: SizedBox(height: 1000),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    final theme = Theme.of(context);
+
+    final tab_bar = TabBar(
+      labelStyle: theme.textTheme.bodyMedium?.copyWith(
+        fontWeight: .bold,
+        color: theme.primaryColor,
+      ),
+      unselectedLabelStyle: theme.textTheme.bodyMedium?.copyWith(
+        fontWeight: .w500,
+        color: theme.hintColor,
+      ),
+      tabs: [
+        Tab(text: "Rede", icon: Icon(Icons.language)),
+        Tab(text: "Unidades", icon: Icon(Icons.search)),
+        Tab(text: "Alertas", icon: Icon(Icons.error_outline)),
+        Tab(text: "Perfil", icon: Icon(Icons.account_circle)),
+      ],
+    );
+
+    return DefaultTabController(
+      initialIndex: 0,
+      length: tab_bar.tabs.length,
+      child: Scaffold(
+        appBar: MyAppBar(),
+        bottomNavigationBar: SafeArea(bottom: true, child: tab_bar),
+        body: TabBarView(
+          children: [
+            HomeScreen(),
+            SizedBox(height: 1000),
+            SizedBox(height: 1000),
+            SizedBox(height: 1000),
+          ],
+        ),
       ),
     );
   }
