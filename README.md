@@ -70,8 +70,7 @@ UPAs e UBSs lotam em horários previsíveis, mas a equipe só percebe quando a f
 
 | Escolha                       | Por quê                                                                     |
 | ----------------------------- | --------------------------------------------------------------------------- |
-| Flutter 3.47 / Dart 3.13      | Android e Linux com um código só                                            |
-| `hooks_riverpod`              | Estado global tipado; `FutureProvider` dá carregamento/erro                 |
+| Riverpod                      | Estado global tipado e reativo;                                             |
 | Rotas nomeadas                | Suficiente para o fluxo, sem dependência extra                              |
 | `http` + `shared_preferences` | Cliente simples com cache para modo offline                                 |
 | `fl_chart`                    | Gráficos de linha e barras                                                  |
