@@ -95,7 +95,7 @@ O endereço da API (padrão `localhost:8080` em builds Debug e `cpad.juliapixel.
 
 ## Vídeo
 
-_link do vídeo_
+<https://youtube.com/shorts/JLJKYn3DAeA>
 
 ## Licença
 
